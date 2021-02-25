@@ -64,10 +64,10 @@ async function fillAndSubmitSigninForm() {
 }
 
 async function navigateToShopCreationWizard() {
-    // findShadowDomElement('dash-board', '.shop-name', driver).then(element => {
-    //     element.click();
-    //     driver.wait(until.urlContains('wizard')).then(() => fillAndSubmitWizardForm(driver));
-    // });
+    findShadowDomElement('dash-board', '.shop-name', driver).then(element => {
+        element.click();
+        driver.wait(until.urlContains('wizard')).then(() => fillAndSubmitWizardForm(driver));
+    });
 }
 
 async function getExtShadowRoot(selector) {
@@ -94,13 +94,11 @@ async function fillAndSubmitWizardForm() {
     driver.findElement(By.id('store-house')).sendKeys(credentials.shop.house);
     driver.findElement(By.css('.next-step-button')).click();
 
-    driver.findElements(By.css('input[type="checkbox"]')).then(elements => {
-        elements.forEach(element => element.click())
-        driver.wait(until.elementLocated(By.id('store-facebook'))).then(element => element.sendKeys(credentials.shop.facebook));
-        driver.wait(until.elementLocated(By.id('store-instagram'))).then(element => element.sendKeys(credentials.shop.instagram));
-        driver.wait(until.elementLocated(By.id('store-youtube'))).then(element => element.sendKeys(credentials.shop.youtube));
-        driver.findElement(By.css('.next-step-button')).click();
-    });
+    driver.findElements(By.css('input[type="checkbox"]')).then(elements => elements.forEach(element => element.click()));
+    driver.findElement(By.id('store-facebook')).sendKeys(credentials.shop.facebook);
+    driver.findElement(By.id('store-instagram')).sendKeys(credentials.shop.instagram);
+    driver.findElement(By.id('store-youtube')).sendKeys(credentials.shop.youtube);
+    driver.findElement(By.css('.next-step-button')).click();
 
     driver.wait(until.urlContains('dashboard')).then(() => navigateToCreatedShop());
 }
